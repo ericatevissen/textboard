@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import subPostSchema from "./subPost.js";
+
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
@@ -9,14 +11,7 @@ const postSchema = new Schema({
         type: String,
         required: true
     },
-    parents: [{
-        type: String,
-        index: 1
-    }],
-    children: [{
-        type: String,
-        index: -1
-    }]
+    subPosts: [subPostSchema]
 });
 
 const Post = mongoose.model("Post", postSchema);
