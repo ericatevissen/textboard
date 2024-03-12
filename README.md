@@ -1,2 +1,2 @@
-# blog
-A blog made with the MERN stack
+# textboard
+A textboard made with the MERN stack

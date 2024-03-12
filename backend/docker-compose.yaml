@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  node:
+    build: ./node
+    container_name: node_c
+    ports: 
+      - "4000:4000"
+    volumes:
+      - ./node:/app
+  mongo:
+    image: mongo:7
+    container_name: mongo_c
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./db-data:/data/db
+
