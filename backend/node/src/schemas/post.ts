@@ -11,7 +11,8 @@ const postSchema = new Schema({
         type: String,
         required: true
     },
-    subPosts: [subPostSchema]
+    subPosts: [subPostSchema],
+    replies: [String]
 });
 
 const Post = mongoose.model("Post", postSchema);

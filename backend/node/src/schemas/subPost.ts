@@ -7,8 +7,7 @@ const subPostSchema = new Schema({
         type: String,
         required: true
     },
-    replies: [String],
-    id: Number
+    replies: [String]
 });
 
 export default subPostSchema;
