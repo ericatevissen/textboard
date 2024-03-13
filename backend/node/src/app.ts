@@ -1,10 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
 import Post from "./schemas/post.js";
-import subPostSchema from "./schemas/subPost.js";
+import SubPostSchema from "./schemas/subPost.js";
 
 const app = express();
-const SubPost = mongoose.model("SubPost", subPostSchema);
+const SubPost = mongoose.model("SubPost", SubPostSchema);
 
 mongoose.connect("mongodb://mongo_c:27017/board")
     .then(() => console.log("connected to db"))
@@ -23,29 +23,41 @@ app.post("/post", (req, res) => {
         const subPost = new SubPost(req.body);
 
         if (req.body.replyOf === req.body.parent) {
-            Post.findByIdAndUpdate(req.body.parent, { $push: { subPosts: subPost, replies: subPost.id } }, { new: true })
+            Post.findOneAndUpdate(
+                { _id: req.body.parent },
+                { $push: { subPosts: subPost, replies: subPost.id } },
+                { new: true }
+            )
                 .then(() => res.redirect(`/post/${req.body.parent}`))
                 .catch((error) => console.error("failed to send subpost", error));
-        }
-
+        } 
         else if (req.body.replyOf) {
-            Post.findByIdAndUpdate(req.body.parent, { $push: { subPosts: subPost } }, { new: true })
+            Post.findOneAndUpdate(
+                { _id: req.body.parent },
+                { $push: { subPosts: subPost } },
+                { new: true }
+            )
                 .then(() => {
-                    Post.updateOne({ _id: req.body.parent, "subPosts._id": req.body.replyOf }, { $push: { "subPosts.$.replies" : subPost.id } }, { new: true })
+                    Post.updateOne(
+                        { _id: req.body.parent, "subPosts._id": req.body.replyOf },
+                        { $push: { "subPosts.$.replies" : subPost.id } },
+                        { new: true }
+                    )
                         .then(() => res.redirect(`/post/${req.body.parent}`))
                         .catch((error) => console.error(error));
                 })
                 .catch((error) => console.error("failed to send subpost", error));
-        }
-
+        } 
         else {
-            Post.findByIdAndUpdate(req.body.parent, { $push: { subPosts: subPost } }, { new: true })
+            Post.findOneAndUpdate(
+                { _id: req.body.parent },
+                { $push: { subPosts: subPost } },
+                { new: true }
+            )
                 .then(() => res.redirect(`/post/${req.body.parent}`))
                 .catch((error) => console.error("failed to send subpost", error));
         }
-    }
-
-    else {
+    } else {
         const post = new Post(req.body);
 
         post.save()
