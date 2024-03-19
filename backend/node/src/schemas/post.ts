@@ -20,7 +20,7 @@ const PostSchema = new Schema(
     { timestamps: true }
 );
 
-//assigns an id using the Post counter, and creates that counter if it doesn't exist yet
+// assigns an id using the Post counter, and creates that counter if it doesn't exist yet
 PostSchema.pre("save", async function(next) {
     try {
         const counter = await Counter.findOneAndUpdate(
@@ -38,7 +38,7 @@ PostSchema.pre("save", async function(next) {
     }
 });
 
-//assigns an id using the Post's subPost counter, and creates that counter if it doesn't exist yet
+// assigns an id using the post's subPost counter, and creates that counter if it doesn't exist yet
 PostSchema.post("findOneAndUpdate", async function(doc) {
     try {
         const newSubPost = doc.subPosts[doc.subPosts.length - 1];
@@ -52,7 +52,7 @@ PostSchema.post("findOneAndUpdate", async function(doc) {
             console.log(newSubPost.createdAt);
             await Post.updateOne(
                 { _id: doc._id, "subPosts.createdAt": newSubPost.createdAt },
-                { $set: { "subPosts.$._id" : newSubPost._id } },
+                { $set: { "subPosts.$._id": newSubPost._id } },
             );
         }
     }
