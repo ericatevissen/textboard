@@ -9,8 +9,8 @@ export default function Form({ showForm, threadId } : FormProps) {
     if (location.pathname === "/") {
         return (
             <form action="http://localhost:4000/post" method="post">
-                <input type="text" name="subject" placeholder="subject" />
-                <input type="text" name="comment" placeholder="comment" />
+                <input className={"subject"} type="text" name="subject" placeholder="subject" />
+                <textarea className={"comment"} name="comment" placeholder="comment" />
                 <button type="submit">post</button>
             </form>
         );
@@ -19,7 +19,7 @@ export default function Form({ showForm, threadId } : FormProps) {
     return (
         <form action="http://localhost:4000/post" method="post">
             <input type="hidden" name="parent" value={threadId}/>
-            <input type="text" name="comment" placeholder="comment" />
+            <textarea className={"comment"} name="comment" placeholder="comment" />
             <button type="submit">post</button>
         </form>
     );
