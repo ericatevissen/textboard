@@ -1,5 +1,5 @@
 export interface SubPostInterface {
-    subject: string
+    comment: string
     _id: number
     replies: number[]
 }
@@ -19,7 +19,7 @@ export default function SubPost({ subPost } : SubPostProps) {
                     );
                 })}
             </div>
-            <p>{subPost.subject}</p>
+            <p>{subPost.comment}</p>
         </div>
     );
 }
