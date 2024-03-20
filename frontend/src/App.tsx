@@ -19,7 +19,7 @@ export default function App() {
             }
         }
 
-        fetchPreviews();
+        void fetchPreviews();
     }, []);
 
     return (
