@@ -1,8 +1,9 @@
 interface FormProps {
     showForm: boolean
+    threadId: number
 }
 
-export default function Form({ showForm } : FormProps) {
+export default function Form({ showForm, threadId } : FormProps) {
     if (showForm === false) return;
 
     if (location.pathname === "/") {
@@ -17,6 +18,7 @@ export default function Form({ showForm } : FormProps) {
 
     return (
         <form action="http://localhost:4000/post" method="post">
+            <input type="hidden" name="parent" value={threadId}/>
             <input type="text" name="comment" placeholder="comment" />
             <button type="submit">post</button>
         </form>

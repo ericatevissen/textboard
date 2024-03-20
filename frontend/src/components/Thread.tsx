@@ -12,7 +12,11 @@ export interface ThreadInterface {
     replies: number[]
 }
 
-export default function Thread() {
+interface ThreadProps {
+    handleThreadId: (id: number) => void
+}
+
+export default function Thread( { handleThreadId } : ThreadProps) {
     const [thread, setThread] = useState<ThreadInterface>();
     const { id } = useParams();
 
@@ -22,12 +26,14 @@ export default function Thread() {
                 const response = await fetch(`http://localhost:4000/post/${id}`);
                 const data = await response.json() as ThreadInterface;
                 setThread(data);
+                if (data !== undefined) handleThreadId(data._id);
             }
             catch (error) {
                 console.error("failed to fetch thread", error);
             }
         }
         if ( id !== undefined) void fetchThread(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     if (!thread) return;
