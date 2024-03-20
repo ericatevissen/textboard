@@ -12,7 +12,7 @@ mongoose.connect("mongodb://mongo_c:27017/board")
 
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/posts", (req, res) => {
+app.get("/previews", (req, res) => {
     Post.find()
         .then((result) => res.send(result))
         .catch((error) => console.error("failed to fetch posts", error));
