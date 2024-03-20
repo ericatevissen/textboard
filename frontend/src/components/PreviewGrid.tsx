@@ -7,7 +7,7 @@ export interface GridInterface {
 
 export default function PreviewGrid({ previewList } : GridInterface) {
     return (
-        <main>
+        <main className="previewGrid">
             {previewList.map(preview => {
                 return (
                     <Preview key={preview._id} preview={preview}/>

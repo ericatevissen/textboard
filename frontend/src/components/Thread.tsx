@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 export interface ThreadInterface {
-    title: string
     subject: string
+    comment: string
     _id: number
     subPosts: SubPostInterface[]
     replies: number[]
@@ -34,7 +34,7 @@ export default function Thread() {
 
     return (
         <main>
-            <Post title={thread.title} subject={thread.subject} _id={thread._id} replies={thread.replies}/>
+            <Post subject={thread.subject} comment={thread.comment} _id={thread._id} replies={thread.replies}/>
             {thread.subPosts.map(subPost => {
                 return (
                     <SubPost key={subPost._id} subPost={subPost} />

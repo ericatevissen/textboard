@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 
 export interface PreviewInterface {
-    title: string
     subject: string
+    comment: string
     _id: number
 }
 
@@ -15,8 +15,8 @@ export default function Preview({ preview } : PreviewProps) {
 
     return (
         <div className="preview" id={preview._id.toString()} onClick={() => navigate(`/${preview._id}`)}>
-            <h2>{preview.title}</h2>
-            <p>{preview.subject}</p>
+            <h2>{preview.subject}</h2>
+            <p>{preview.comment}</p>
         </div>
     );
 }

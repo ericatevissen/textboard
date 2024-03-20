@@ -1,11 +1,11 @@
 export interface PostProps {
-    title: string
     subject: string
+    comment: string
     _id: number
     replies: number[]
 }
 
-export default function Post ({ title, subject, _id, replies } : PostProps){
+export default function Post ({ subject, comment, _id, replies } : PostProps){
     return (
         <div className="post">
             <div className="post-top">
@@ -16,8 +16,8 @@ export default function Post ({ title, subject, _id, replies } : PostProps){
                     );
                 })}
             </div>
-            <p>{title}</p>
-            <p>{subject}</p>
+            <h2>{subject}</h2>
+            <p>{comment}</p>
         </div>
     );
 }

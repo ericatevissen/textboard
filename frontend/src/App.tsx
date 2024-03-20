@@ -3,9 +3,12 @@ import PreviewGrid from "./components/PreviewGrid";
 import { PreviewInterface } from "./components/Preview";
 import { Route, Routes } from "react-router-dom";
 import Thread from "./components/Thread";
+import pencilSvg from "../public/pencil.svg";
+import Form from "./components/Form";
 
 export default function App() {
     const [previewList, setPreviewList] = useState<PreviewInterface[]>([]);
+    const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
         async function fetchPreviews() {
@@ -24,10 +27,15 @@ export default function App() {
 
     return (
         <>
+            <h1>Textboard</h1>
             <Routes>
                 <Route path="/" element={<PreviewGrid previewList={previewList} />} />
                 <Route path="/:id" element={<Thread/>} />
             </Routes>
+            <Form showForm={showForm} />
+            <button className="formButton" onClick={() => setShowForm(true)}>
+                <img src={pencilSvg} alt="pencil icon"/>
+            </button>
         </>
     );
 }
