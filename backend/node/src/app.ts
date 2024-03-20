@@ -61,7 +61,7 @@ app.post("/post", (req, res) => {
         const post = new Post(req.body);
 
         post.save()
-            .then(() => res.redirect(`/post/${post.id}`))
+            .then((result) => res.send(result))
             .catch((error) => console.error("failed to send post", error));
     }
 });

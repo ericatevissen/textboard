@@ -30,7 +30,7 @@ export default function App() {
         setThreadId(id);
     }
 
-    function closeShowForm() {
+    function closeForm() {
         setShowForm(false);
     }
 
@@ -41,7 +41,7 @@ export default function App() {
                 <Route path="/" element={<PreviewGrid previewList={previewList} />} />
                 <Route path="/:id" element={<Thread handleThreadId={handleThreadId}/>} />
             </Routes>
-            <Form showForm={showForm} threadId={threadId} closeShowForm={closeShowForm}/>
+            <Form showForm={showForm} threadId={threadId} closeForm={closeForm}/>
             <button className="form-button" onClick={() => setShowForm(true)}>
                 <img src={pencilSvg} alt="pencil icon"/>
             </button>
