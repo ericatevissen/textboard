@@ -122,10 +122,6 @@ form {
     background-color: var(--color-surface-200);
 }
 
-form div {
-    
-}
-
 button {
     background-color: var(--color-surface-300);
     width: 50%;

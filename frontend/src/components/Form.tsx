@@ -8,7 +8,7 @@ export default function Form({ showForm, threadId, closeForm }: FormProps) {
     if (!showForm) return null;
 
     return (
-        <form>
+        <form action="http://localhost:4000/post" method="post">
             {location.pathname === "/" ? (
                 <>
                     <input className="subject" type="text" name="subject" placeholder="subject" />
