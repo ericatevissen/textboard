@@ -56,8 +56,8 @@ export default function App() {
                 // eslint-disable-next-line @typescript-eslint/no-base-to-string
                 const lines = formObj.comment.toString().split("\n");
                 lines.map((line) => {
-                    if (line.trim().startsWith(">")) {
-                        formObj.replyOf.push(parseInt(line.trim().substring(1)));
+                    if (line.trim().startsWith(">>")) {
+                        formObj.replyOf.push(parseInt(line.trim().substring(2)));
                     }
                 });
             }
