@@ -15,7 +15,7 @@ const PostSchema = new Schema(
             required: true
         },
         subPosts: [SubPostSchema],
-        replies: [String]
+        replies: [Number]
     },
     { timestamps: true }
 );
@@ -42,6 +42,7 @@ PostSchema.pre("save", async function(next) {
 PostSchema.post("findOneAndUpdate", async function(doc) {
     try {
         const newSubPost = doc.subPosts[doc.subPosts.length - 1];
+
         if (!newSubPost._id) {
             const counter = await Counter.findOneAndUpdate(
                 { _id: doc._id + "-subPostCounter" },
@@ -49,13 +50,35 @@ PostSchema.post("findOneAndUpdate", async function(doc) {
                 { new: true, upsert: true }
             ).exec();
             newSubPost._id = counter.seq;
-            console.log(newSubPost.createdAt);
             await Post.updateOne(
                 { _id: doc._id, "subPosts.createdAt": newSubPost.createdAt },
                 { $set: { "subPosts.$._id": newSubPost._id } },
-            );
+            )
+                .then(() => {
+                    if (newSubPost.replyOf) {
+                        newSubPost.replyOf.map((replied: number) => {
+                            if (replied === 0) {
+                                Post.findOneAndUpdate(
+                                    { _id: doc._id },
+                                    { $push: { replies: newSubPost._id } },
+                                    { new: true }
+                                )
+                                    .catch((error) => console.error(error));
+                            }
+                            else {
+                                Post.updateOne(
+                                    { _id: doc._id, "subPosts._id": replied },
+                                    { $push: { "subPosts.$.replies": newSubPost._id } },
+                                    { new: true }
+                                )
+                                    .catch((error) => console.error(error));
+                            }
+                        });
+                    }
+                });
         }
     }
+
     catch (error) {
         console.error(error);
     }

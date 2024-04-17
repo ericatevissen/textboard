@@ -9,7 +9,8 @@ const SubPostSchema = new Schema(
             type: String,
             required: true
         },
-        replies: [String]
+        replies: [Number],
+        replyOf: [Number]
     },
     { timestamps: true }
 );

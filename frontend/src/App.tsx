@@ -36,14 +36,32 @@ export default function App() {
         setShowForm(false);
     }
 
+    interface FormObj {
+        [key: string]: string | number | File | number[];
+        replyOf: number[]
+    }
+
     async function handleSubmit() {
         const form = document.querySelector("form");
-        let formObj;
+        let formObj: FormObj = { replyOf: [] };
         let payload;
 
         if (form) {
             const formData = new FormData(form);
-            formObj = Object.fromEntries(formData);
+            formObj = { ...formObj, ...Object.fromEntries(formData) };
+            formObj.replyOf = [];
+
+            if (formObj && formObj.comment) {
+                console.log(formObj.comment);
+                // eslint-disable-next-line @typescript-eslint/no-base-to-string
+                const lines = formObj.comment.toString().split("\n");
+                lines.map((line) => {
+                    if (line.trim().startsWith(">")) {
+                        formObj.replyOf.push(parseInt(line.trim().substring(1)));
+                    }
+                });
+            }
+
             payload = JSON.stringify(formObj);
         }
 

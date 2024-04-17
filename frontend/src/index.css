@@ -73,6 +73,7 @@ p {
     padding: 10px;
     gap: 10px;
     border-radius: 8px;
+    white-space: pre-wrap;
 }
 
 .preview:hover, button:hover {
@@ -150,6 +151,7 @@ button {
     max-width: fit-content;
     gap: 5px;
     border-radius: 8px;
+    white-space: pre-wrap;
 }
 
 .post-top {

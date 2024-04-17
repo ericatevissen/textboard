@@ -19,50 +19,21 @@ app.get("/previews", (req, res) => {
 });
 
 app.post("/post", (req, res) => {
-    console.log(req);
     if (req.body.parent) {
         const subPost = new SubPost(req.body);
 
-        if (req.body.replyOf === req.body.parent) {
-            Post.findOneAndUpdate(
-                { _id: req.body.parent },
-                { $push: { subPosts: subPost, replies: subPost.id } },
-                { new: true }
-            )
-                .then(() => res.send(200))
-                .catch((error) => console.error("failed to send subpost", error));
-        }
-        else if (req.body.replyOf) {
-            Post.findOneAndUpdate(
-                { _id: req.body.parent },
-                { $push: { subPosts: subPost } },
-                { new: true }
-            )
-                .then(() => {
-                    Post.updateOne(
-                        { _id: req.body.parent, "subPosts._id": req.body.replyOf },
-                        { $push: { "subPosts.$.replies" : subPost.id } },
-                        { new: true }
-                    )
-                        .catch((error) => console.error(error));
-                })
-                .then(() => res.send(200))
-                .catch((error) => console.error("failed to send subpost", error));
-        }
-        else {
-            Post.findOneAndUpdate(
-                { _id: req.body.parent },
-                { $push: { subPosts: subPost } },
-                { new: true }
-            )
-                .then(() => res.send(200))
-                .catch((error) => console.error("failed to send subpost", error));
-        }
+        Post.findOneAndUpdate(
+            { _id: req.body.parent },
+            { $push: { subPosts: subPost} },
+            { new: true }
+        )
+            .then(() => res.send(200))
+            .catch((error) => console.error("failed to send subpost", error));
     }
     else {
         const post = new Post(req.body);
 
-        post.save()
+        post.save()    
             .then((result) => res.send(result.id))
             .catch((error) => console.error("failed to send post", error));
     }
