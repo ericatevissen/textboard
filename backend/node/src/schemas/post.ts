@@ -9,7 +9,6 @@ const PostSchema = new Schema(
         _id: Number,
         subject: {
             type: String,
-            required: true
         },
         comment: {
             type: String,

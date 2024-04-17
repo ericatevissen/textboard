@@ -1,23 +1,39 @@
+import { useState } from "react";
+
 interface FormProps {
     showForm: boolean
     threadId: number
     closeForm: () => void
+    handleSubmit: () => Promise<void>
 }
 
-export default function Form({ showForm, threadId, closeForm }: FormProps) {
-    if (!showForm) return null;
+export default function Form({ showForm, threadId, closeForm, handleSubmit }: FormProps) {
+    const [subject, setSubject] = useState("");
+    const [comment, setComment] = useState("");
 
+    if (!showForm) return null;
+    
     return (
-        <form action="http://localhost:4000/post" method="post">
+        <form className="postForm" action="http://localhost:4000/post" method="post" onSubmit={e => {
+            e.preventDefault();
+            void handleSubmit();
+            setSubject("");
+            setComment("");
+            closeForm();
+        }}
+        >
             {location.pathname === "/" ? (
                 <>
-                    <input className="subject" type="text" name="subject" placeholder="subject" />
-                    <textarea className="comment" name="comment" placeholder="comment" />
+                    <input className="subject" type="text" name="subject" 
+                        placeholder="subject" value={subject} onChange={(e) => setSubject(e.target.value)}/>
+                    <textarea className="comment" name="comment" placeholder="comment" 
+                        value={comment} onChange={(e) => setComment(e.target.value)}/>
                 </>
             ) : (
                 <>
                     <input type="hidden" name="parent" value={threadId} />
-                    <textarea className="comment" name="comment" placeholder="comment" />
+                    <textarea className="comment" name="comment" placeholder="comment" 
+                        value={comment} onChange={(e) => setComment(e.target.value)}/>
                 </>
             )}
             <div>

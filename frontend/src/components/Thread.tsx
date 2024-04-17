@@ -14,9 +14,11 @@ export interface ThreadInterface {
 
 interface ThreadProps {
     handleThreadId: (id: number) => void
+    refresh: boolean
+    setRefresh: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function Thread( { handleThreadId } : ThreadProps) {
+export default function Thread( { handleThreadId, refresh, setRefresh } : ThreadProps) {
     const [thread, setThread] = useState<ThreadInterface>();
     const { id } = useParams();
 
@@ -32,9 +34,13 @@ export default function Thread( { handleThreadId } : ThreadProps) {
                 console.error("failed to fetch thread", error);
             }
         }
-        if ( id !== undefined) void fetchThread(id);
+        if (id) void fetchThread(id);
+        if (refresh && id) {
+            void fetchThread(id);
+            setRefresh(false);
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+    }, [id, refresh]);
 
     if (!thread) return;
 
