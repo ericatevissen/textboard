@@ -48,7 +48,7 @@ export default function Thread( { handleThreadId, refresh, setRefresh } : Thread
     return (
         <main className="thread">
             <Post subject={thread.subject} comment={thread.comment} _id={thread._id} 
-                replies={thread.replies} createdAt={thread.createdAt}/>
+                replies={thread.replies} createdAt={thread.createdAt} />
             {thread.subPosts.map(subPost => {
                 return (
                     <SubPost key={subPost._id} subPost={subPost} />

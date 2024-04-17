@@ -1,3 +1,5 @@
+import Comment from "./Comment";
+
 export interface PostProps {
     subject: string
     comment: string
@@ -15,12 +17,12 @@ export default function Post ({ subject, comment, _id, replies, createdAt } : Po
                 <p className="id">No.{_id}</p>
                 {replies.map(reply => {
                     return (
-                        <p key={reply}>{reply}</p>
+                        <p key={reply}>{">>"}{reply}</p>
                     );
                 })}
             </div>  
             <h2>{subject}</h2>
-            <p>{comment}</p>
+            <Comment comment={comment} />
         </div>
     );
 }

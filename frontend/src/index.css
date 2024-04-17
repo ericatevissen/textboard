@@ -162,3 +162,11 @@ button {
 .post-top p {
     font-size: 1.5rem;
 }
+
+.replyOf {
+    color: #ff0f0f;
+}
+
+.greentext {
+    color: lime;
+}

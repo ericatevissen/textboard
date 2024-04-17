@@ -1,3 +1,5 @@
+import Comment from "./Comment";
+
 export interface SubPostInterface {
     comment: string
     _id: number
@@ -10,6 +12,7 @@ export interface SubPostProps {
 }
 
 export default function SubPost({ subPost } : SubPostProps) {
+
     return (
         <div className="post">
             <div className="post-top">
@@ -17,11 +20,11 @@ export default function SubPost({ subPost } : SubPostProps) {
                 <p>{subPost.createdAt}</p>
                 {subPost.replies.map(reply => {
                     return (
-                        <p key={reply}>{reply}</p>
+                        <p key={reply}>{">>"}{reply}</p>
                     );
                 })}
             </div>
-            <p>{subPost.comment}</p>
+            <Comment comment={subPost.comment} />
         </div>
     );
 }
