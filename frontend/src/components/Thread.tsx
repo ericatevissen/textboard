@@ -10,6 +10,7 @@ export interface ThreadInterface {
     _id: number
     subPosts: SubPostInterface[]
     replies: number[]
+    createdAt: string
 }
 
 interface ThreadProps {
@@ -45,8 +46,9 @@ export default function Thread( { handleThreadId, refresh, setRefresh } : Thread
     if (!thread) return;
 
     return (
-        <main>
-            <Post subject={thread.subject} comment={thread.comment} _id={thread._id} replies={thread.replies}/>
+        <main className="thread">
+            <Post subject={thread.subject} comment={thread.comment} _id={thread._id} 
+                replies={thread.replies} createdAt={thread.createdAt}/>
             {thread.subPosts.map(subPost => {
                 return (
                     <SubPost key={subPost._id} subPost={subPost} />

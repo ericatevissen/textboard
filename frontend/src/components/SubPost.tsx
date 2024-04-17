@@ -2,6 +2,7 @@ export interface SubPostInterface {
     comment: string
     _id: number
     replies: number[]
+    createdAt: string
 }
 
 export interface SubPostProps {
@@ -10,9 +11,10 @@ export interface SubPostProps {
 
 export default function SubPost({ subPost } : SubPostProps) {
     return (
-        <div className="subPost">
+        <div className="post">
             <div className="post-top">
-                <p>{subPost._id}</p>
+                <p>#{subPost._id}</p>
+                <p>{subPost.createdAt}</p>
                 {subPost.replies.map(reply => {
                     return (
                         <p key={reply}>{reply}</p>
