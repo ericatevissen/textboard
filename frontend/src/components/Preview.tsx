@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import Comment from "./Comment";
 
 export interface PreviewInterface {
     subject: string
@@ -16,7 +17,7 @@ export default function Preview({ preview } : PreviewProps) {
     return (
         <div className="preview" id={preview._id.toString()} onClick={() => navigate(`/${preview._id}`)}>
             <h2>{preview.subject}</h2>
-            <p>{preview.comment}</p>
+            <Comment comment={preview.comment}/>
         </div>
     );
 }
