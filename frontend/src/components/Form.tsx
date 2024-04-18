@@ -1,15 +1,16 @@
-import { useState } from "react";
-
 interface FormProps {
     showForm: boolean
     threadId: number
     closeForm: () => void
     handleSubmit: () => Promise<void>
+    subject: string
+    setSubject: React.Dispatch<React.SetStateAction<string>>
+    comment: string
+    setComment: React.Dispatch<React.SetStateAction<string>>
 }
 
-export default function Form({ showForm, threadId, closeForm, handleSubmit }: FormProps) {
-    const [subject, setSubject] = useState("");
-    const [comment, setComment] = useState("");
+export default function Form({ showForm, threadId, closeForm, 
+    handleSubmit, subject, setSubject, comment, setComment }: FormProps) {
 
     if (!showForm) return null;
     

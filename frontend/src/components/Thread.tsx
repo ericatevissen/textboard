@@ -1,7 +1,7 @@
 import SubPost from "./SubPost";
 import { SubPostInterface } from "./SubPost";
 import Post from "./Post";
-import { useEffect, useState } from "react";
+import { createRef, useEffect, useRef, useState, RefObject } from "react";
 import { useParams } from "react-router-dom";
 
 export interface ThreadInterface {
@@ -17,11 +17,15 @@ interface ThreadProps {
     handleThreadId: (id: number) => void
     refresh: boolean
     setRefresh: React.Dispatch<React.SetStateAction<boolean>>
+    formComment: string
+    setFormComment: React.Dispatch<React.SetStateAction<string>>
 }
 
-export default function Thread( { handleThreadId, refresh, setRefresh } : ThreadProps) {
+export default function Thread( { handleThreadId, refresh, setRefresh, formComment, setFormComment } : ThreadProps) {
     const [thread, setThread] = useState<ThreadInterface>();
     const { id } = useParams();
+    const refs = useRef<RefObject<HTMLDivElement>[] | never[]>([]);
+    refs.current[0] ?? createRef();
 
     useEffect(() => {
         async function fetchThread(id: string) {
@@ -30,6 +34,8 @@ export default function Thread( { handleThreadId, refresh, setRefresh } : Thread
                 const data = await response.json() as ThreadInterface;
                 setThread(data);
                 if (data !== undefined) handleThreadId(data._id);
+                refs.current[0] ?? createRef();
+                if(thread) refs.current = thread.subPosts.map((_element, index) => refs.current[index] ?? createRef());
             }
             catch (error) {
                 console.error("failed to fetch thread", error);
@@ -47,11 +53,13 @@ export default function Thread( { handleThreadId, refresh, setRefresh } : Thread
 
     return (
         <main className="thread">
-            <Post subject={thread.subject} comment={thread.comment} _id={thread._id} 
-                replies={thread.replies} createdAt={thread.createdAt} />
+            <Post subject={thread.subject} comment={thread.comment} id={thread._id} 
+                replies={thread.replies} createdAt={thread.createdAt} 
+                formComment={formComment} setFormComment={setFormComment} ref={refs.current[0]}/>
             {thread.subPosts.map(subPost => {
                 return (
-                    <SubPost key={subPost._id} subPost={subPost} />
+                    <SubPost key={subPost._id} subPost={subPost} 
+                        comment={formComment} setComment={setFormComment} ref={refs.current[subPost._id]}/>
                 );
             })}
         </main>

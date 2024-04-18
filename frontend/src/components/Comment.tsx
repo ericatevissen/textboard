@@ -1,8 +1,12 @@
+import ReplyLink from "./ReplyLink";
+import { RefObject } from "react";
+
 export interface CommentProps {
     comment: string
+    ref: RefObject<HTMLDivElement>;
 }
 
-export default function Comment({ comment }: CommentProps) {
+export default function Comment({ comment, ref }: CommentProps) {
     const lines = comment.split("\n");
 
     return (
@@ -10,7 +14,7 @@ export default function Comment({ comment }: CommentProps) {
             {
                 lines.map((line, index) => {
                     if (line.trim().startsWith(">>")) {
-                        return <a key={index} className="replyOf" href="">{line}</a>;
+                        return <ReplyLink key={index} line={line} ref={ref}/>;
                     }
                     if (line.trim().startsWith(">")) {
                         return <p key={index} className="greentext">{line}</p>;

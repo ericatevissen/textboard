@@ -12,6 +12,8 @@ export default function App() {
     const [showForm, setShowForm] = useState(false);
     const [threadId, setThreadId] = useState<number>(Number);
     const [refresh, setRefresh] = useState(false);
+    const [subject, setSubject] = useState("");
+    const [comment, setComment] = useState("");
 
     useEffect(() => {
         async function fetchPreviews() {
@@ -93,9 +95,10 @@ export default function App() {
             <Routes>
                 <Route path="/" element={<PreviewGrid previewList={previewList} />} />
                 <Route path="/:id" element={<Thread handleThreadId={handleThreadId}
-                    refresh={refresh} setRefresh={setRefresh}/>} />
+                    refresh={refresh} setRefresh={setRefresh} formComment={comment} setFormComment={setComment}/>} />
             </Routes>
-            <Form showForm={showForm} threadId={threadId} closeForm={closeForm} handleSubmit={handleSubmit}/>
+            <Form showForm={showForm} threadId={threadId} closeForm={closeForm} handleSubmit={handleSubmit}
+                subject={subject} setSubject={setSubject} comment={comment} setComment={setComment}/>
             <button className="form-button" onClick={() => setShowForm(true)}>
                 <img src={pencilSvg} alt="pencil icon"/>
             </button>
