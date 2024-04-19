@@ -14,6 +14,7 @@ export default function App() {
     const [refresh, setRefresh] = useState(false);
     const [subject, setSubject] = useState("");
     const [comment, setComment] = useState("");
+    const [previewOrder, setpreviewOrder] = useState("new");
 
     useEffect(() => {
         async function fetchPreviews() {
@@ -93,7 +94,7 @@ export default function App() {
         <>
             <h1>Textboard</h1>
             <Routes>
-                <Route path="/" element={<PreviewGrid previewList={previewList} />} />
+                <Route path="/" element={<PreviewGrid previewList={previewList} previewOrder={previewOrder}/>} />
                 <Route path="/:id" element={<Thread handleThreadId={handleThreadId} setShowForm={setShowForm}
                     refresh={refresh} setRefresh={setRefresh} formComment={comment} setFormComment={setComment}/>} />
             </Routes>

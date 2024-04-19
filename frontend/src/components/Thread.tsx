@@ -30,6 +30,12 @@ export default function Thread( { handleThreadId, refresh, setRefresh, formComme
             try {
                 const response = await fetch(`http://localhost:4000/post/${id}`);
                 const data = await response.json() as ThreadInterface;
+                data.createdAt = data.createdAt.slice(0,-5);
+
+                data.subPosts.map((subPost, index) => {
+                    data.subPosts[index].createdAt = subPost.createdAt.slice(0,-5);
+                });
+
                 setThread(data);
                 if (data !== undefined) handleThreadId(data._id);
             }

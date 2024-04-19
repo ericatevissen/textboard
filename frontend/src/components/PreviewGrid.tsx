@@ -3,12 +3,16 @@ import Preview from "./Preview";
 
 export interface GridInterface {
     previewList: PreviewInterface[]
+    previewOrder: string
 }
 
-export default function PreviewGrid({ previewList } : GridInterface) {
+export default function PreviewGrid({ previewList, previewOrder } : GridInterface) {
+    let previews;
+    if(previewOrder === "new") previews = [...previewList].reverse();
+
     return (
         <main className="previewGrid">
-            {previewList.map(preview => {
+            {previews?.map(preview => {
                 return (
                     <Preview key={preview._id} preview={preview}/>
                 );

@@ -21,15 +21,16 @@ export default function Post({ subject, comment, id, replies, createdAt,
                 <p>{createdAt}</p>
                 <p>No.{id}</p>
                 <Reply id={0} comment={formComment} setComment={setFormComment} setShowForm={setShowForm}/>
+            </div>
+            <h2>{subject}</h2>
+            <Comment comment={comment}/>
+            <div className="replies">
                 {replies.map(reply => {
                     return (
                         <a className="reply" href={`#${reply}`} key={reply}>{`>>${reply}`}</a>
                     );
                 })}
             </div>
-            
-            <h2>{subject}</h2>
-            <Comment comment={comment}/>
         </div>
     );
 }

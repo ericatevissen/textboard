@@ -23,13 +23,15 @@ export default function SubPost({ subPost, comment, setComment, setShowForm } : 
                 <p>#{subPost._id}</p>
                 <p>{subPost.createdAt}</p>
                 <Reply id={subPost._id} comment={comment} setComment={setComment} setShowForm={setShowForm}/>
+            </div>
+            <Comment comment={subPost.comment}/>
+            <div className="replies">
                 {subPost.replies.map(reply => {
                     return (
                         <a className="reply" href={`#${reply}`} key={reply}>{`>>${reply}`}</a>
                     );
                 })}
             </div>
-            <Comment comment={subPost.comment}/>
         </div>
     );
 }
