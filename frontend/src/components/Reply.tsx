@@ -2,10 +2,14 @@ interface ReplyProps {
     id: number
     comment: string
     setComment: React.Dispatch<React.SetStateAction<string>>
+    setShowForm: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function Reply({ id, comment, setComment } : ReplyProps) {
+export default function Reply({ id, comment, setComment, setShowForm } : ReplyProps) {
     return (
-        <a className="reply-button" href="#" onClick={() => setComment(`>>${id}\n` + comment)}>Reply</a>
+        <p className="reply-button" onClick={() => {
+            setComment(`>>${id}\n` + comment);
+            setShowForm(true);
+        }}>Reply</p>
     );
 }

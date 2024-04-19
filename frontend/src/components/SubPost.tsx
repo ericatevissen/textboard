@@ -1,6 +1,5 @@
 import Comment from "./Comment";
 import Reply from "./Reply";
-import { RefObject } from "react";
 
 export interface SubPostInterface {
     comment: string
@@ -13,24 +12,24 @@ export interface SubPostProps {
     subPost: SubPostInterface
     comment: string
     setComment: React.Dispatch<React.SetStateAction<string>>
-    ref: RefObject<HTMLDivElement>;
+    setShowForm: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function SubPost({ subPost, comment, setComment, ref} : SubPostProps) {
+export default function SubPost({ subPost, comment, setComment, setShowForm } : SubPostProps) {
 
     return (
-        <div className="post">
+        <div className="post" id={subPost._id.toString()}>
             <div className="post-top">
                 <p>#{subPost._id}</p>
                 <p>{subPost.createdAt}</p>
-                <Reply id={subPost._id} comment={comment} setComment={setComment}/>
+                <Reply id={subPost._id} comment={comment} setComment={setComment} setShowForm={setShowForm}/>
                 {subPost.replies.map(reply => {
                     return (
-                        <p key={reply}>{">>"}{reply}</p>
+                        <a className="reply" href={`#${reply}`} key={reply}>{`>>${reply}`}</a>
                     );
                 })}
             </div>
-            <Comment comment={subPost.comment} ref={ref}/>
+            <Comment comment={subPost.comment}/>
         </div>
     );
 }

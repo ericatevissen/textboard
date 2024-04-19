@@ -38,7 +38,7 @@ body {
     font-family: 'Dejavu Serif', Helvetica, sans-serif;
 }
 
-h2, h1 {
+.reply, h2, h1 {
     color: white;
 }
 
@@ -162,8 +162,22 @@ button {
     gap: 20px;
 }
 
-.post-top p {
+.post-top p:not(.reply-button) {
     font-size: 1.5rem;
+}
+
+.reply-button {
+    color: var(--color-primary-200);
+}
+
+.reply-button:hover {
+    filter: brightness(150%);
+    cursor: pointer;
+}
+
+.reply:hover {
+    filter: brightness(50%);
+    cursor: pointer;
 }
 
 .replyOf {

@@ -94,7 +94,7 @@ export default function App() {
             <h1>Textboard</h1>
             <Routes>
                 <Route path="/" element={<PreviewGrid previewList={previewList} />} />
-                <Route path="/:id" element={<Thread handleThreadId={handleThreadId}
+                <Route path="/:id" element={<Thread handleThreadId={handleThreadId} setShowForm={setShowForm}
                     refresh={refresh} setRefresh={setRefresh} formComment={comment} setFormComment={setComment}/>} />
             </Routes>
             <Form showForm={showForm} threadId={threadId} closeForm={closeForm} handleSubmit={handleSubmit}

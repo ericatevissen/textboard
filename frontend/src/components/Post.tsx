@@ -1,6 +1,5 @@
 import Comment from "./Comment";
 import Reply from "./Reply";
-import { RefObject } from "react";
 
 interface PostProps {
     subject: string
@@ -10,26 +9,27 @@ interface PostProps {
     createdAt: string
     formComment: string
     setFormComment: React.Dispatch<React.SetStateAction<string>>
-    ref: RefObject<HTMLDivElement>;
+    setShowForm: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function Post({ subject, comment, id, replies, createdAt, formComment, setFormComment, ref } : PostProps){
+export default function Post({ subject, comment, id, replies, createdAt, 
+    formComment, setFormComment, setShowForm } : PostProps){
     return (
-        <div className="post">
+        <div className="post" id={"0"}>
             <div className="post-top">
                 <p>#0</p>
                 <p>{createdAt}</p>
                 <p>No.{id}</p>
-                <Reply id={id} comment={formComment} setComment={setFormComment}/>
+                <Reply id={0} comment={formComment} setComment={setFormComment} setShowForm={setShowForm}/>
                 {replies.map(reply => {
                     return (
-                        <p key={reply}>{">>"}{reply}</p>
+                        <a className="reply" href={`#${reply}`} key={reply}>{`>>${reply}`}</a>
                     );
                 })}
             </div>
             
             <h2>{subject}</h2>
-            <Comment comment={comment} ref={ref}/>
+            <Comment comment={comment}/>
         </div>
     );
 }
