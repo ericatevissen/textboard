@@ -14,7 +14,7 @@ export default function App() {
     const [refresh, setRefresh] = useState(false);
     const [subject, setSubject] = useState("");
     const [comment, setComment] = useState("");
-    const [previewOrder, setpreviewOrder] = useState("new");
+    const [previewOrder] = useState("new");
 
     useEffect(() => {
         async function fetchPreviews() {

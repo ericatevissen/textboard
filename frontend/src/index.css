@@ -211,6 +211,10 @@ button {
 
 @media (max-width: 500px) {
     .preview {
-        width: 150px;
+        width: 42vw;
+    }
+
+    form {
+        width: 90vw;
     }
 }
