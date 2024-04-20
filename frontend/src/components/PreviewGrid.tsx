@@ -1,12 +1,12 @@
 import { PreviewInterface } from "./Preview";
 import Preview from "./Preview";
 
-export interface GridInterface {
+export interface GridProps {
     previewList: PreviewInterface[]
     previewOrder: string
 }
 
-export default function PreviewGrid({ previewList, previewOrder } : GridInterface) {
+export default function PreviewGrid({ previewList, previewOrder } : GridProps) {
     let previews;
     if(previewOrder === "new") previews = [...previewList].reverse();
 

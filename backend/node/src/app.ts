@@ -14,7 +14,22 @@ app.use(express.json());
 
 app.get("/previews", (req, res) => {
     Post.find()
-        .then((result) => res.send(result))
+        .then((result) => {
+            const filteredPosts: { _id: number | null; subject: string | null | undefined; comment: string; replyCount: number; }[] = [];
+
+            result.map((post) => {
+                const filteredPost = {
+                    _id: post._id,
+                    subject: post.subject,
+                    comment: post.comment,
+                    replyCount: post.subPosts.length
+                };
+
+                filteredPosts.push(filteredPost);
+            });
+
+            res.send(filteredPosts);
+        })
         .catch((error) => console.error("failed to fetch posts", error));
 });
 

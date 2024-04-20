@@ -27,7 +27,7 @@ export default function Form({ showForm, threadId, closeForm,
                 <>
                     <input className="subject" type="text" name="subject" 
                         placeholder="subject" value={subject} onChange={(e) => setSubject(e.target.value)}/>
-                    <textarea className="comment" name="comment" placeholder="comment" 
+                    <textarea className="comment" name="comment" placeholder="comment" required
                         value={comment} onChange={(e) => setComment(e.target.value)}/>
                 </>
             ) : (
