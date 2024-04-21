@@ -3,6 +3,7 @@ import { SubPostInterface } from "./SubPost";
 import Post from "./Post";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { serverUrl } from "../App";
 
 export interface ThreadInterface {
     subject: string
@@ -28,7 +29,7 @@ export default function Thread( { handleThreadId, refresh, setRefresh, formComme
     useEffect(() => {
         async function fetchThread(id: string) {
             try {
-                const response = await fetch(`http://localhost:4000/post/${id}`);
+                const response = await fetch(`${serverUrl}/post/${id}`);
                 const data = await response.json() as ThreadInterface;
                 data.createdAt = data.createdAt.slice(0,-5);
 

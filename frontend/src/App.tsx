@@ -6,6 +6,8 @@ import Thread from "./components/Thread";
 import pencilSvg from "/pencil.svg";
 import Form from "./components/Form";
 
+export const serverUrl = import.meta.env.VITE_SERVERURL as string || "http://localhost:4000";
+
 export default function App() {
     const navigate = useNavigate();
     const [previewList, setPreviewList] = useState<PreviewInterface[]>([]);
@@ -19,7 +21,7 @@ export default function App() {
     useEffect(() => {
         async function fetchPreviews() {
             try {
-                const response = await fetch("http://localhost:4000/previews");
+                const response = await fetch(`${serverUrl}/previews`);
                 const data = await response.json() as PreviewInterface[];
                 setPreviewList(data);
             }
@@ -69,7 +71,7 @@ export default function App() {
         }
 
         try {
-            const response = await fetch("http://localhost:4000/post", {
+            const response = await fetch(`${serverUrl}/post`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
