@@ -21,7 +21,7 @@ export default function App() {
     useEffect(() => {
         async function fetchPreviews() {
             try {
-                const response = await fetch(`${serverUrl}/previews`);
+                const response = await fetch(`${serverUrl}/api/previews`);
                 const data = await response.json() as PreviewInterface[];
                 setPreviewList(data);
             }
@@ -71,7 +71,7 @@ export default function App() {
         }
 
         try {
-            const response = await fetch(`${serverUrl}/post`, {
+            const response = await fetch(`${serverUrl}/api/post`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

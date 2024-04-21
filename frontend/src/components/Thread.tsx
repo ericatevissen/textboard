@@ -29,7 +29,7 @@ export default function Thread( { handleThreadId, refresh, setRefresh, formComme
     useEffect(() => {
         async function fetchThread(id: string) {
             try {
-                const response = await fetch(`${serverUrl}/post/${id}`);
+                const response = await fetch(`${serverUrl}/api/post/${id}`);
                 const data = await response.json() as ThreadInterface;
                 data.createdAt = data.createdAt.slice(0,-5);
 

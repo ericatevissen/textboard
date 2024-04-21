@@ -12,7 +12,7 @@ mongoose.connect("mongodb://mongo_c:27017/board")
 
 app.use(express.json());
 
-app.get("/previews", (req, res) => {
+app.get("/api/previews", (req, res) => {
     Post.find()
         .then((result) => {
             const filteredPosts: { _id: number | null; subject: string | null | undefined; comment: string; replyCount: number; }[] = [];
@@ -33,7 +33,7 @@ app.get("/previews", (req, res) => {
         .catch((error) => console.error("failed to fetch posts", error));
 });
 
-app.post("/post", (req, res) => {
+app.post("/api/post", (req, res) => {
     if (req.body.parent) {
         const subPost = new SubPost(req.body);
 
@@ -54,7 +54,7 @@ app.post("/post", (req, res) => {
     }
 });
 
-app.get("/post/:id", (req, res) => {
+app.get("/api/post/:id", (req, res) => {
     const id = req.params.id;
     Post.findById(id)
         .then((result) => {
