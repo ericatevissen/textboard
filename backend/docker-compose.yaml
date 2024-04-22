@@ -1,4 +1,4 @@
-version: "2.20.2"
+version: ""
 services:
   node:
     build: ./node
@@ -7,6 +7,8 @@ services:
       - "4000:4000"
     volumes:
       - ./node:/app
+      - /app/node_modules/
+      - /app/build/
   mongo:
     image: mongo:7
     container_name: mongo_c

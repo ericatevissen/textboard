@@ -57,7 +57,6 @@ export default function App() {
             formObj.replyOf = [];
 
             if (formObj && formObj.comment) {
-                console.log(formObj.comment);
                 // eslint-disable-next-line @typescript-eslint/no-base-to-string
                 const lines = formObj.comment.toString().split("\n");
                 lines.map((line) => {

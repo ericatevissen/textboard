@@ -13,12 +13,14 @@
     "eslint": "^8.57.0",
     "eslint-plugin-node": "^11.1.0",
     "nodemon": "^3.1.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.5"
   },
   "scripts": {
     "dev:build": "tsc -w",
     "dev:run": "nodemon -L ./build/app.js",
-    "dev": "concurrently npm:dev:*"
+    "dev": "concurrently npm:dev:*",
+    "prod:build": "tsc",
+    "prod:run":"node ./build/app.js",
+    "prod": "concurrently npm:prod:*"
   }
 }
