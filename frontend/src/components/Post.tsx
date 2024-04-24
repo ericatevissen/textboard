@@ -1,4 +1,5 @@
 import Comment from "./Comment";
+import Remove from "./Remove";
 import Reply from "./Reply";
 
 interface PostProps {
@@ -10,10 +11,12 @@ interface PostProps {
     formComment: string
     setFormComment: React.Dispatch<React.SetStateAction<string>>
     setShowForm: React.Dispatch<React.SetStateAction<boolean>>
+    setRefresh: React.Dispatch<React.SetStateAction<boolean>>
+    admin: boolean
 }
 
 export default function Post({ subject, comment, id, replies, createdAt, 
-    formComment, setFormComment, setShowForm } : PostProps){
+    formComment, setFormComment, setShowForm, setRefresh, admin } : PostProps){
     return (
         <div className="post" id={"0"}>
             <div className="post-top">
@@ -31,6 +34,7 @@ export default function Post({ subject, comment, id, replies, createdAt,
                     );
                 })}
             </div>
+            {admin ? <Remove postId={id} parentId={null} setRefresh={setRefresh}/> : null}
         </div>
     );
 }

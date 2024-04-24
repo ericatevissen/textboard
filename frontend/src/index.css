@@ -113,7 +113,7 @@ p, a {
     height: 80%;
 }
 
-form {
+.post-form {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -123,7 +123,7 @@ form {
     width: 450px;
 }
 
-button {
+.post-form button {
     font-size: 1.75rem;
     color: white;
     padding: 3px;
@@ -133,19 +133,42 @@ button {
     font-size: 2rem;
 }
 
-.comment {
+.form-comment {
     height: 300px;
     text-align: start;
 }
 
-.subject, .comment, button {
+.form-subject, .form-comment, button {
     font-size: 1.75rem;
     color: white;
     padding: 3px;
 }
 
-.subject, .comment {
+.form-subject, .form-comment {
     background-color: var(--color-surface-200);
+}
+
+.login-form {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.login-form input {
+    background-color: var(--color-surface-200);
+    font-size: 2rem;
+    padding: 5px;
+    color: white;
+}
+
+.login-form button {
+    font-size: 2rem;
+    color: white;
+    padding: 5px;
+    background-color: var(--color-surface-300);
+    width: 100%;
 }
 
 .thread {
@@ -202,7 +225,22 @@ button {
     cursor: pointer;
 }
 
-.replyOf {
+.remove {
+    width: 17px;
+    height: 22px;
+    border: none;
+    overflow: hidden;
+    padding: 0;
+    background: transparent;
+    margin-left: auto;
+}
+
+.remove img {
+    width: 17px;
+    height: 22px;
+}
+
+.reply-of {
     color: #ff0f0f;
 }
 

@@ -11,7 +11,7 @@ export default function Comment({ comment }: CommentProps) {
                 lines.map((line, index) => {
                     const replyOf = parseInt(line.trim().substring(2));
                     if (line.trim().startsWith(">>")) {
-                        return <a href={`#${replyOf}`} className="replyOf" key={index}>{line}</a>;
+                        return <a href={`#${replyOf}`} className="reply-of" key={index}>{line}</a>;
                     }
                     if (line.trim().startsWith(">")) {
                         return <p key={index} className="greentext">{line}</p>;

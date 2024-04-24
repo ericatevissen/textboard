@@ -1,37 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PreviewGrid from "./components/PreviewGrid";
-import { PreviewInterface } from "./components/Preview";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Thread from "./components/Thread";
-import pencilSvg from "/pencil.svg";
 import Form from "./components/Form";
+import Login from "./components/Login";
+import FormButton from "./components/FormButton";
 
 export const serverUrl = import.meta.env.VITE_SERVERURL as string || "http://localhost:4000";
 
 export default function App() {
     const navigate = useNavigate();
-    const [previewList, setPreviewList] = useState<PreviewInterface[]>([]);
     const [showForm, setShowForm] = useState(false);
     const [threadId, setThreadId] = useState<number>(Number);
     const [refresh, setRefresh] = useState(false);
     const [subject, setSubject] = useState("");
     const [comment, setComment] = useState("");
     const [previewOrder] = useState("new");
-
-    useEffect(() => {
-        async function fetchPreviews() {
-            try {
-                const response = await fetch(`${serverUrl}/api/previews`);
-                const data = await response.json() as PreviewInterface[];
-                setPreviewList(data);
-            }
-            catch (error) {
-                console.error("failed to fetch previews", error);
-            }
-        }
-
-        void fetchPreviews();
-    }, []);
 
     function handleThreadId(id: number) {
         setThreadId(id);
@@ -78,7 +62,7 @@ export default function App() {
                 body: payload
             });
 
-            if (formObj && formObj.parent) {
+            if (formObj.parent) {
                 setRefresh(true);
             }
             else {
@@ -95,15 +79,17 @@ export default function App() {
         <>
             <h1>Textboard</h1>
             <Routes>
-                <Route path="/" element={<PreviewGrid previewList={previewList} previewOrder={previewOrder}/>} />
-                <Route path="/:id" element={<Thread handleThreadId={handleThreadId} setShowForm={setShowForm}
-                    refresh={refresh} setRefresh={setRefresh} formComment={comment} setFormComment={setComment}/>} />
+                <Route path="/" element={<><PreviewGrid previewOrder={previewOrder} />
+                    <FormButton setShowForm={setShowForm} /></>} />
+                <Route path="/:id" element={<>
+                    <Thread handleThreadId={handleThreadId} setShowForm={setShowForm}
+                        refresh={refresh} setRefresh={setRefresh} formComment={comment} setFormComment={setComment}/>
+                    <FormButton setShowForm={setShowForm} />
+                </>} />
+                <Route path="/login" element={<Login />}/>
             </Routes>
             <Form showForm={showForm} threadId={threadId} closeForm={closeForm} handleSubmit={handleSubmit}
                 subject={subject} setSubject={setSubject} comment={comment} setComment={setComment}/>
-            <button className="form-button" onClick={() => setShowForm(true)}>
-                <img src={pencilSvg} alt="pencil icon"/>
-            </button>
         </>
     );
 }

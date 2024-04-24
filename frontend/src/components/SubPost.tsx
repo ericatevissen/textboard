@@ -1,4 +1,5 @@
 import Comment from "./Comment";
+import Remove from "./Remove";
 import Reply from "./Reply";
 
 export interface SubPostInterface {
@@ -13,9 +14,12 @@ export interface SubPostProps {
     comment: string
     setComment: React.Dispatch<React.SetStateAction<string>>
     setShowForm: React.Dispatch<React.SetStateAction<boolean>>
+    setRefresh: React.Dispatch<React.SetStateAction<boolean>>
+    parentId: number
+    admin: boolean
 }
 
-export default function SubPost({ subPost, comment, setComment, setShowForm } : SubPostProps) {
+export default function SubPost({ subPost, comment, setComment, setShowForm, setRefresh, parentId, admin } : SubPostProps) {
 
     return (
         <div className="post" id={subPost._id.toString()}>
@@ -32,6 +36,7 @@ export default function SubPost({ subPost, comment, setComment, setShowForm } : 
                     );
                 })}
             </div>
+            {admin ? <Remove postId={subPost._id} parentId={parentId} setRefresh={setRefresh}/> : null}
         </div>
     );
 }

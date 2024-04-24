@@ -26,19 +26,27 @@ interface ThreadProps {
 export default function Thread( { handleThreadId, refresh, setRefresh, formComment, setFormComment, setShowForm } : ThreadProps) {
     const [thread, setThread] = useState<ThreadInterface>();
     const { id } = useParams();
+    const [admin, setAdmin] = useState(false);
+
+    interface Data {
+        admin: boolean
+        thread: ThreadInterface
+    }
+
     useEffect(() => {
         async function fetchThread(id: string) {
             try {
-                const response = await fetch(`${serverUrl}/api/post/${id}`);
-                const data = await response.json() as ThreadInterface;
-                data.createdAt = data.createdAt.slice(0,-5);
+                const response = await fetch(`${serverUrl}/api/post/${id}`, {credentials:"include"});
+                const data = await response.json() as Data;
+                data.thread.createdAt = data.thread.createdAt.slice(0,-5);
+                setAdmin(data.admin);
 
-                data.subPosts.map((subPost, index) => {
-                    data.subPosts[index].createdAt = subPost.createdAt.slice(0,-5);
+                data.thread.subPosts.map((subPost, index) => {
+                    data.thread.subPosts[index].createdAt = subPost.createdAt.slice(0,-5);
                 });
 
-                setThread(data);
-                if (data !== undefined) handleThreadId(data._id);
+                setThread(data.thread);
+                if (data !== undefined) handleThreadId(data.thread._id);
             }
             catch (error) {
                 console.error("failed to fetch thread", error);
@@ -56,13 +64,13 @@ export default function Thread( { handleThreadId, refresh, setRefresh, formComme
 
     return (
         <main className="thread">
-            <Post subject={thread.subject} comment={thread.comment} id={thread._id} 
+            <Post subject={thread.subject} comment={thread.comment} id={thread._id} admin={admin}
                 replies={thread.replies} createdAt={thread.createdAt} setShowForm={setShowForm}
-                formComment={formComment} setFormComment={setFormComment}/>
+                formComment={formComment} setFormComment={setFormComment} setRefresh={setRefresh}/>
             {thread.subPosts.map(subPost => {
                 return (
-                    <SubPost key={subPost._id} subPost={subPost} setShowForm={setShowForm}
-                        comment={formComment} setComment={setFormComment}/>
+                    <SubPost key={subPost._id} subPost={subPost} setShowForm={setShowForm} setRefresh={setRefresh}
+                        comment={formComment} setComment={setFormComment} parentId={thread._id} admin={admin}/>
                 );
             })}
         </main>
