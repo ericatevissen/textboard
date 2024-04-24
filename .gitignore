@@ -2,3 +2,4 @@ node_modules
 backend/db-data
 backend/node/build
 .env
+dist
