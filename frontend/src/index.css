@@ -253,7 +253,7 @@ p, a {
         width: 40vw;
     }
 
-    form {
+    .post-form {
         width: 90vw;
     }
 }
