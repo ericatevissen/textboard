@@ -176,15 +176,20 @@ app.post("/api/remove", (req, res) => {
     }
 });
 
-app.post("/api/ban", (req, res) => {
-    const data = {
-        ip: req.body.ip
-    };
+app.post("/api/ban", async (req, res) => {
+    const alreadyBanned = await Banned.findOne({ ip: req.body.ip });
 
-    const banned = new Banned(data);
-    banned.save()
-        .then(() => res.status(200).send())
-        .catch((error) => console.error(error));
+    if (!alreadyBanned) {
+        const data = {
+            ip: req.body.ip
+        };
+        const banned = new Banned(data);
+
+        banned.save()
+            .then(() => res.status(200).send())
+            .catch((error) => console.error(error));
+    }
+    else res.status(400).send();
 });
 
 app.listen(4000);

@@ -62,6 +62,7 @@ export default function App() {
                 body: payload
             });
 
+            if (response.status === 403) alert("You're banned");
             if (formObj.parent) {
                 setRefresh(true);
             }

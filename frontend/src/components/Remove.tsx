@@ -17,7 +17,7 @@ export default function Remove({ postId, parentId, setRefresh } : RemoveProps) {
     const req = JSON.stringify(body);
 
     async function remove() {
-        if (!window.confirm("Are you sure you want to delete this post?")) return;
+        if (!confirm("Are you sure you want to delete this post?")) return;
 
         try {
             const response = await fetch(`${serverUrl}/api/remove`, {
