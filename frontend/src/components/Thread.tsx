@@ -12,6 +12,7 @@ export interface ThreadInterface {
     subPosts: SubPostInterface[]
     replies: number[]
     createdAt: string
+    ip: string | null
 }
 
 interface ThreadProps {
@@ -23,7 +24,7 @@ interface ThreadProps {
     setShowForm: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function Thread( { handleThreadId, refresh, setRefresh, formComment, setFormComment, setShowForm } : ThreadProps) {
+export default function Thread({ handleThreadId, refresh, setRefresh, formComment, setFormComment, setShowForm } : ThreadProps) {
     const [thread, setThread] = useState<ThreadInterface>();
     const { id } = useParams();
     const [admin, setAdmin] = useState(false);
@@ -66,11 +67,12 @@ export default function Thread( { handleThreadId, refresh, setRefresh, formComme
         <main className="thread">
             <Post subject={thread.subject} comment={thread.comment} id={thread._id} admin={admin}
                 replies={thread.replies} createdAt={thread.createdAt} setShowForm={setShowForm}
-                formComment={formComment} setFormComment={setFormComment} setRefresh={setRefresh}/>
+                formComment={formComment} setFormComment={setFormComment} setRefresh={setRefresh} ip={thread.ip}/>
             {thread.subPosts.map(subPost => {
                 return (
-                    <SubPost key={subPost._id} subPost={subPost} setShowForm={setShowForm} setRefresh={setRefresh}
-                        comment={formComment} setComment={setFormComment} parentId={thread._id} admin={admin}/>
+                    <SubPost key={subPost._id} subPost={subPost} setShowForm={setShowForm}
+                        setRefresh={setRefresh} comment={formComment} setComment={setFormComment}
+                        parentId={thread._id} admin={admin} />
                 );
             })}
         </main>

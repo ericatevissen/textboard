@@ -100,8 +100,9 @@ p, a {
     background-color: var(--color-primary-100);
     right: 0;
     bottom: 0;
-    border-radius: 100%;
-    border-style: none;
+    border-radius: 50%;
+    overflow: hidden;
+    border: none;
     height: 75px;
     width: 75px;
     margin-bottom: 3vmax;
@@ -225,19 +226,39 @@ p, a {
     cursor: pointer;
 }
 
+.admin-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+}
+
 .remove {
     width: 17px;
     height: 22px;
     border: none;
-    overflow: hidden;
     padding: 0;
     background: transparent;
-    margin-left: auto;
 }
 
 .remove img {
     width: 17px;
     height: 22px;
+}
+
+.ban {
+    width: 22px;
+    height: 22px;
+    background: transparent;
+    overflow: hidden;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+}
+
+.ban img {
+    width: 100%;
+    height: 100%;
 }
 
 .reply-of {

@@ -2,10 +2,11 @@ import dotenv from "dotenv";
 import session from "express-session";
 import { default as connectMongoDBSession} from "connect-mongodb-session";
 const MongoDBStore = connectMongoDBSession(session);
-import express from "express";
+import express, { NextFunction } from "express";
 import mongoose from "mongoose";
 import Post from "./schemas/post.js";
 import SubPostSchema from "./schemas/subPost.js";
+import Banned from "./schemas/banned.js";
 
 declare module "express-session" {
     interface SessionData {
@@ -33,6 +34,8 @@ const store = new MongoDBStore({
 });
 
 app.use(express.json());
+
+app.set("trust proxy", true);
 
 app.use(
     session({
@@ -65,9 +68,21 @@ app.get("/api/previews", (req, res) => {
         .catch((error) => console.error("failed to fetch posts", error));
 });
 
-app.post("/api/post", (req, res) => {
+const checkIp = async (req: express.Request, res: express.Response, next: NextFunction) => {
+    const banned = await Banned.findOne({ ip: req.ip });
+    if (banned) res.status(403).send();
+    else next();
+};
+
+app.post("/api/post", checkIp, (req, res) => {
     if (req.body.parent) {
-        const subPost = new SubPost(req.body);
+        const data = {
+            _id: req.body._id,
+            comment: req.body.comment,
+            replyOf: req.body.replyOf,
+            ip: req.ip
+        };
+        const subPost = new SubPost(data);
 
         Post.findOneAndUpdate(
             { _id: req.body.parent },
@@ -78,7 +93,15 @@ app.post("/api/post", (req, res) => {
             .catch((error) => console.error("failed to send subpost", error));
     }
     else {
-        const post = new Post(req.body);
+
+        const data = {
+            _id: req.body._id,
+            subject: req.body.subject,
+            comment: req.body.comment,
+            ip: req.ip
+        };
+
+        const post = new Post(data);
 
         post.save()    
             .then((result) => res.send(result.id))
@@ -97,8 +120,21 @@ app.use((req, res, next) => {
 
 app.get("/api/post/:id", (req, res) => {
     const id = req.params.id;
+    
     Post.findById(id)
         .then((result) => {
+            if (!res.locals.admin) {
+                if (result) {
+                    result = result.toObject();
+                    delete result.ip;
+
+                    result.subPosts.map((subPost, index) => {
+                        delete subPost.ip;
+                        if (result) result.subPosts[index] = subPost;
+                    });
+                }
+            }
+
             const response = {
                 admin: res.locals.admin,
                 thread: result
@@ -138,6 +174,17 @@ app.post("/api/remove", (req, res) => {
             .then(() => res.status(200).send())
             .catch((error) => console.error(error));
     }
+});
+
+app.post("/api/ban", (req, res) => {
+    const data = {
+        ip: req.body.ip
+    };
+
+    const banned = new Banned(data);
+    banned.save()
+        .then(() => res.status(200).send())
+        .catch((error) => console.error(error));
 });
 
 app.listen(4000);

@@ -1,3 +1,4 @@
+import Ban from "./Ban";
 import Comment from "./Comment";
 import Remove from "./Remove";
 import Reply from "./Reply";
@@ -7,6 +8,7 @@ export interface SubPostInterface {
     _id: number
     replies: number[]
     createdAt: string
+    ip: string | null
 }
 
 export interface SubPostProps {
@@ -19,7 +21,8 @@ export interface SubPostProps {
     admin: boolean
 }
 
-export default function SubPost({ subPost, comment, setComment, setShowForm, setRefresh, parentId, admin } : SubPostProps) {
+export default function SubPost({ subPost, comment, setComment, setShowForm, 
+    setRefresh, parentId, admin } : SubPostProps) {
 
     return (
         <div className="post" id={subPost._id.toString()}>
@@ -36,7 +39,12 @@ export default function SubPost({ subPost, comment, setComment, setShowForm, set
                     );
                 })}
             </div>
-            {admin ? <Remove postId={subPost._id} parentId={parentId} setRefresh={setRefresh}/> : null}
+            {admin ?
+                <div className="admin-buttons">
+                    <Ban ip={subPost.ip}/>
+                    <Remove postId={subPost._id} parentId={parentId} setRefresh={setRefresh}/>
+                </div>
+                : null}
         </div>
     );
 }

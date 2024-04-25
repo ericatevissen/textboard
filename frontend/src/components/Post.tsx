@@ -1,3 +1,4 @@
+import Ban from "./Ban";
 import Comment from "./Comment";
 import Remove from "./Remove";
 import Reply from "./Reply";
@@ -13,10 +14,11 @@ interface PostProps {
     setShowForm: React.Dispatch<React.SetStateAction<boolean>>
     setRefresh: React.Dispatch<React.SetStateAction<boolean>>
     admin: boolean
+    ip: string | null
 }
 
 export default function Post({ subject, comment, id, replies, createdAt, 
-    formComment, setFormComment, setShowForm, setRefresh, admin } : PostProps){
+    formComment, setFormComment, setShowForm, setRefresh, admin, ip } : PostProps){
     return (
         <div className="post" id={"0"}>
             <div className="post-top">
@@ -34,7 +36,12 @@ export default function Post({ subject, comment, id, replies, createdAt,
                     );
                 })}
             </div>
-            {admin ? <Remove postId={id} parentId={null} setRefresh={setRefresh}/> : null}
+            {admin ? 
+                <div className="admin-buttons">
+                    <Ban ip={ip}/>
+                    <Remove postId={id} parentId={null} setRefresh={setRefresh}/> 
+                </div>
+                : null}
         </div>
     );
 }

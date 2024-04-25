@@ -15,7 +15,8 @@ const PostSchema = new Schema(
             required: true
         },
         subPosts: [SubPostSchema],
-        replies: [Number]
+        replies: [Number],
+        ip: String
     },
     { timestamps: true }
 );
